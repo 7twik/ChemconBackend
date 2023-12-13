@@ -148,30 +148,93 @@ exports.Bulk = async (req, res, next) => {
       const mailOptions = { 
         from: "arnabc857@gmail.com", 
         to: emailed, 
-        subject: "Your Ticket is ready!", 
+        subject: "Your Ticket is ready!",
         html: `
         <body>
         <h3 style="font-family:Monospace;color:#3B1540;">Here is your ticket:</h3> 
-        <div style="border-width:1vw;border-style:dashed;border-radius:20px;padding:29px;background:url(https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRltvphx1-_HoG9LguT0ebsYMtqOSl7S65-6VOfB6tKq6WifbpQ9jFIEgO3knh_oPcOWX4&usqp=CAU);background-size:cover;background-repeat:no-repeat;">
-        <p><h2><b style="font-family:Poppins;color:#3B1540;font-size:3vw;">Hello ${name} !</b></h2></p> 
-          <div style="display:flex;justify-content:space-between;">
-          <div>
-          <b><h3 style="font-family:Monospace;color:#3B1540;font-size:1.8vw";>Date:</h3> </b>
-          <b><h4 style="color:#3B1540;font-size:2vw;">27th - 30th December, 2023</h4></b>
-          </div>
-          <div style="min-width:20vw;">
-          </div>
-            <div>
-                <b><h3 style="font-family:Monospace;text-align:right;color:#3B1540;font-size:1.82vw;">
-                Venue:</h3> </b>
-                <b><h4 style="text-align:right;color:#3B1540;font-size:2vw;">Heritage Institute of Technology, Kolkata</h4></b>
+        <div style="border-width:1vw;border-style:dashed;border-radius:20px;padding:29px;background:url(https://res.cloudinary.com/dcyfkgtgv/image/upload/v1702482114/ticket_page_bg_eqdqpt.jpg);background-size:cover;background-repeat:no-repeat;">
+            <p><h2><b style="font-family:Poppins;color:white;font-size:3vw;">Hello ${name} !</b></h2></p> 
+            <div style="display:flex;justify-content:space-between;">
+                <div>
+                    <b><h3 style="font-family:Monospace;color:white;font-size:1.8vw";>Date:</h3> </b>
+                    <b><h4 style="color:white;font-size:2vw;">27th - 30th December, 2023</h4></b>
+                </div>
+                <div style="min-width:20vw;">
+                </div>
+                <div>
+                    <b>
+                        <h3 style="font-family:Monospace;color:white;font-size:1.82vw;">Venue:</h3> 
+                    </b>
+                    <b>
+                        <h4 style="color:white;font-size:2vw;">Heritage Institute of Technology, Kolkata</h4>
+                    </b>
+                </div>
+            </div>            
+            <hr />
+            <div style="display:flex;justify-content:space-between;">
+                <div>
+                    <b>
+                        <h3 style="font-family:Monospace;color:white;font-size:1.8vw";>Click here for Location:</h3> 
+                    </b>
+                    <a href="https://www.google.com/maps/d/u/0/viewer?mid=1B0TvI3v57BG6hrmOyTLlZH76Kt4&hl=en_US&ll=22.51646200000002%2C88.41829899999999&z=17">
+                        <img style="border-width:0.5vw;border-color:black;border-radius:20px;width:20vw;height:20vw;" src="https://res.cloudinary.com/dcyfkgtgv/image/upload/v1702478766/heritage_ksmg4k.png" />
+                    </a>
+                </div>
+                <div style="min-width:20vw;">
+                </div>
+                <div>
+                    <b><h3 style="font-family:Monospace;color:white;font-size:1.82vw;text-align:center;">
+                        Scan now!</h3> 
+                    </b>
+                    <a href="${qr}">
+                        <img style="width:20vw;height:20vw;border-radius:15px;float:right;" src="${qr}" />
+                    </a>
+                </div>
             </div>
-            </div>
-          
-          <div style="display:flex;justify-content:space-between;"><h4 style="color:#3B1540;font-size:2vw;">Here's the QR code: &nbsp; &nbsp;</h4>
-           <a href="${qr}"><b><h3 style="color:#846edb;font-size:2vw;">QR link</h3></b></a></div> 
-          </div>
           </body>`, 
+        // html: `
+        // <body>
+        // <h3 style="font-family:Monospace;color:#3B1540;">Here is your ticket:</h3> 
+        // <div style="border-width:1vw;border-style:dashed;border-radius:20px;padding:29px;background:url(https://res.cloudinary.com/dcyfkgtgv/image/upload/v1702482114/ticket_page_bg_eqdqpt.jpg);background-size:cover;background-repeat:no-repeat;">
+        //     <p><h2><b style="font-family:Poppins;color:white;font-size:3vw;">Hello ${name} !</b></h2></p> 
+        //     <div style="display:flex;justify-content:space-between;">
+        //         <div>
+        //             <b><h3 style="font-family:Monospace;color:white;font-size:1.8vw";>Date:</h3> </b>
+        //             <b><h4 style="color:white;font-size:2vw;">27th - 30th December, 2023</h4></b>
+        //         </div>
+        //         <div style="min-width:20vw;">
+        //         </div>
+        //         <div>
+        //             <b>
+        //                 <h3 style="font-family:Monospace;color:white;font-size:1.82vw;">Venue:</h3> 
+        //             </b>
+        //             <b>
+        //                 <h4 style="color:white;font-size:2vw;">Heritage Institute of Technology, Kolkata</h4>
+        //             </b>
+        //         </div>
+        //     </div>            
+        //     <hr />
+        //     <div style="display:flex;justify-content:space-between;">
+        //         <div>
+        //             <b>
+        //                 <h3 style="font-family:Monospace;color:white;font-size:1.8vw";>Click here for Location:</h3> 
+        //             </b>
+        //             <a href="https://www.google.com/maps/d/u/0/viewer?mid=1B0TvI3v57BG6hrmOyTLlZH76Kt4&hl=en_US&ll=22.51646200000002%2C88.41829899999999&z=17">
+        //                 <img style="border-width:0.5vw;border-color:black;border-radius:20px;width:20vw;height:20vw;" src="https://res.cloudinary.com/dcyfkgtgv/image/upload/v1702478766/heritage_ksmg4k.png" />
+        //             </a>
+        //         </div>
+        //         <div style="min-width:20vw;">
+        //         </div>
+        //         <div>
+        //             <b><h3 style="font-family:Monospace;color:white;font-size:1.82vw;text-align:center;">
+        //                 Scan now!</h3> 
+        //             </b>
+        //             <a href="${qr}">
+        //                 <img style="width:20vw;height:20vw;border-radius:15px;float:right;" src="https://res.cloudinary.com/dcyfkgtgv/image/upload/v1702479218/nnk9xpiovydc7ic4hxzd.png" />
+        //             </a>
+        //         </div>
+        //     </div>
+        //   </body>`, 
    
         //   // AMP4EMAIL 
         //   amp: `<!doctype html> 
