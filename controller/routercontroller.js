@@ -63,6 +63,17 @@ exports.Bulk = async (req, res, next) => {
       console.log(err)
     }
   }
+  exports.Show = async (req, res, next) => {
+    try {
+      const data=await ChemConMember.find();
+      res.status(200).json({data:data});
+      next();
+    } 
+    catch (error) {
+        console.log(error);
+    }
+  
+  }
   exports.Check= async (req, res,next) => {
     const  email = req.body.data.email;
     console.log(email)
