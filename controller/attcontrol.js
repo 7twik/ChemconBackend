@@ -108,24 +108,24 @@ exports.Add = async (req, res, next) => {
         const email= data.data.email; 
         const name= data.data.name; 
         const mobile= data.data.mobile; 
-        const org= data.data.org; 
-        const url= data.data.url; 
+        const url= data.data.qr; 
         const category= data.data.category; 
+        const verify= data.data.verify;
         const kit= "On-Spot Registration"; 
         const checkin1= false; 
         const checkin2= false; 
         const checkin3= false; 
-        const user = await AttendeeSchema.findOne({Email: data.data.email}); 
+        const user = await AttendeeSchema.findOne({Email: email}); 
         if(user){ 
-            res.status(404).json({message: "User already exists with this email"}); 
+            res.status(404).json({data:user, message: "User already exists with this email", status:0}); 
         } 
         else{ 
             const newUser = await AttendeeSchema.create({ 
                 Name: name, 
                 Email: email, 
-                mobile: mobile, 
+                Mobile: mobile, 
                 Kit: kit, 
-                org: org, 
+                VerifyCode: verify,
                 Url: url, 
                 Category: category, 
                 checkin1: checkin1, 
@@ -133,7 +133,7 @@ exports.Add = async (req, res, next) => {
                 checkin3: checkin3, 
             }); 
             console.log(newUser); 
-            sendOTPViaEmail(email, url);
+            sendOTPViaEmail(email, url, name);
             res.status(200).json({message: "User created successfully"}); 
         } 
     } 
@@ -141,66 +141,83 @@ exports.Add = async (req, res, next) => {
         console.log(error); 
     } 
 }
-function sendOTPViaEmail(emailed, qr) { 
-    try{ 
-    // Configure a Nodemailer transporter to send emails 
-    console.log(emailed); 
-      console.log(qr); 
-    const transporter = nodemailer.createTransport({ 
-      host: 'smtp.gmail.com', 
-      port: 465, 
-      secure: true, 
-      auth: { 
-        user: "arnabc857@gmail.com", 
-        pass: "dratvdvupxdmlpmb", 
-      }, 
+
+function sendOTPViaEmail(emailed, qr, name) { 
+  try{ 
+  // Configure a Nodemailer transporter to send emails 
+  console.log(emailed); 
+    console.log(qr); 
+  const transporter = nodemailer.createTransport({ 
+    host: 'smtp.gmail.com', 
+    port: 465, 
+    secure: true, 
+    auth: { 
+      user: "arnabc857@gmail.com", 
+      pass: "dratvdvupxdmlpmb", 
+    }, 
+  }); 
+ 
+    // Email content and configuration (customize this based on your email service) 
+    const mailOptions = { 
+      from: "arnabc857@gmail.com", 
+      to: emailed, 
+      subject: "Your spot for ChemCon'23 has been confirmed!",
+      html: `
+      <body>
+      <h3 style="font-family:Monospace;color:#3B1540;">Here is your ticket:</h3> 
+      <div style="border-width:1vw;border-style:dashed;border-radius:20px;padding:29px;background:url(https://res.cloudinary.com/dcyfkgtgv/image/upload/v1702487786/ticket_bg_blurred_rzbdag.png);background-size:cover;background-repeat:no-repeat;">
+          <p><h2><b style="font-family:Poppins;color:white;font-size:3vw;font-weight:800;">Hello ${name} !</b></h2></p> 
+          <div style="display:flex;justify-content:space-between;">
+              <div>
+                  <h3><b style="font-family:Monospace;color:white;font-size:1.8vw;">Date:</b> </h3>
+                  <h4><b style="color:white;font-size:2vw;">27th - 30th December, 2023</b></h4>
+              </div>
+              <div style="min-width:20vw;">
+              </div>
+              <div>
+                  <h3>
+                      <b style="font-family:Monospace;color:white;font-size:1.82vw;">Venue:</b> 
+                  </h3>
+                  <h4>
+                      <b style="color:white;font-size:2vw;">Heritage Institute of Technology, Kolkata</b>
+                  </h4>
+              </div>
+          </div>            
+          <hr />
+          <div style="display:flex;justify-content:space-between;">
+              <div>
+                  <h3>
+                      <b style="font-family:Monospace;color:white;font-size:1.8vw;text-shadow:2px 2px 2px black;">Click here for Location:</b> 
+                  </h3>
+                  <a href="https://www.google.com/maps/d/u/0/viewer?mid=1B0TvI3v57BG6hrmOyTLlZH76Kt4&hl=en_US&ll=22.51646200000002%2C88.41829899999999&z=17">
+                      <img style="border-width:0.5vw;border-color:black;border-radius:20px;width:20vw;height:20vw;" src="https://res.cloudinary.com/dcyfkgtgv/image/upload/v1702478766/heritage_ksmg4k.png" />
+                  </a>
+              </div>
+              <div style="min-width:20vw;">
+              </div>
+              <div>
+                  <h3><b style="font-family:Monospace;color:white;font-size:1.82vw;text-align:center;text-shadow:2px 2px 2px black;">
+                      Scan now!</b> 
+                  </h3>
+                  <a href="${qr}">
+                      <img style="width:20vw;height:20vw;border-radius:15px;float:right;" src="${qr}" />
+                  </a>
+              </div>
+          </div>
+        </body>`, 
+    }; 
+    // Send the email 
+    transporter.sendMail(mailOptions, (error, info) => { 
+      if (error) { 
+        console.log(error); 
+      } else { 
+        console.log(`Email sent: ${info.response}`); 
+      } 
     }); 
-   
-      // Email content and configuration (customize this based on your email service) 
-      const mailOptions = { 
-        from: "arnabc857@gmail.com", 
-        to: emailed, 
-        subject: "Your QR Code is ready!", 
-        text: `Your QR code is` , 
-          html: `<div><p><b>Hello</b></p> 
-          <p>Here's the QR code:<br/><a href="${qr}">QR link</a></p> 
-          <p>${qr}</p></div>`, 
-   
-          // AMP4EMAIL 
-          amp: `<!doctype html> 
-          <html ⚡4email> 
-            <head> 
-              <meta charset="utf-8"> 
-              <style amp4email-boilerplate>body{visibility:hidden}</style> 
-              <script async src="https://cdn.ampproject.org/v0.js"></script> 
-              <script async custom-element="amp-anim" src="https://cdn.ampproject.org/v0/amp-anim-0.1.js"></script> 
-            </head> 
-            <body> 
-              <p><b>Hello</b> to myself <amp-img src="${qr}" width="16" height="16"/></p> 
-              <p>No embedded image attachments in AMP, so here's a linked nyan cat instead:<br/> 
-                <amp-anim src="${qr}" width="500" height="350"/></p> 
-            </body> 
-          </html>`, 
-   
-          // An array of attachments 
-           
-   
-      }; 
-     
-      // Send the email 
-      transporter.sendMail(mailOptions, (error, info) => { 
-        if (error) { 
-          console.log(error); 
-        } else { 
-          console.log(`Email sent: ${info.response}`); 
-        } 
-      }); 
-    } 
-    catch(err) 
-    { 
-      // html: `<p><b>Hello</b> to myself <img src="cid:note@example.com"/></p> 
-      //     <p>Here's a nyan cat for you as an embedded attachment:<br/><img src="${qr}"/></p>`, 
-         
-      console.log(err) 
-    } 
-  }
+  } 
+  catch(err) 
+  { 
+       
+    console.log(err) 
+  } 
+}

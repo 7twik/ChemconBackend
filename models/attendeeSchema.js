@@ -8,21 +8,21 @@ const attendeeSchema = new mongoose.Schema(
     Email: { 
       type: String, 
     }, 
-    mobile: { 
+    Mobile: { 
       type: String, 
     }, 
     Kit: { 
       type: String, 
-    }, 
-    org:{ 
-        type: String, 
-    }, 
+    },
     Url:{ 
         type: String, 
     }, 
     Category:{ 
         type: String, 
     }, 
+    VerifyCode:{ 
+        type: String, 
+    },
     checkin1:{ 
         type: Boolean, 
         default: false, 
