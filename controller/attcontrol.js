@@ -221,3 +221,17 @@ function sendOTPViaEmail(emailed, qr, name) {
     console.log(err) 
   } 
 }
+exports.Mail = async (req, res, next) => {
+    try{
+        const data= AttendeeSchema.find();
+        let emails=[];
+        for(var i=0;i<data.length;i++)
+        {
+            emails.push(data[i].Email);
+        }
+        res.json({data:emails}); // "success
+    }
+    catch(error){
+        console.log(error);
+    }
+}
