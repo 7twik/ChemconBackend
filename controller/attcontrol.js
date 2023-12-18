@@ -4,7 +4,7 @@ const nodemailer = require("nodemailer");
 const AttendeeSchema=require("../models/attendeeSchema");
 
 const emailAddresses = ['chemconupdate1@gmail.com', 'chemconupdate3@gmail.com','chemconupdate4@gmail.com','chemconupdate5@gmail.com','chemconupdate6@gmail.com','chemconupdate7@gmail.com','chemconupdate8@gmail.com'];
-const password = ['szfe segx wqlz gjqm','sjeo tchy nmid lvwd','expb jmal jkyu dwpq','jpko uxcq ufnb wyrn','fzvo  ptib lvic fnek','vfod oadw rzcd lmds','dndq dmoh eoej rbdt'];
+const password = ['szfesegxwqlzgjqm','sjeotchynmidlvwd','expbjmaljkyudwpq','jpkouxcqufnbwyrn','fzvoptiblvicfnek','vfodoadwrzcdlmds','dndqdmoheoejrbdt'];
 let currentEmailIndex = 0;
 let emailsSentCount = 0;
 const maxEmailsPerDay = 200;
@@ -157,7 +157,7 @@ exports.Add = async (req, res, next) => {
 
 async function sendOTPViaEmail(emailed, qr, name) { 
     const currentDate = new Date();
-
+    console.log("Email data: "+emailed+" "+qr+" "+name);
   // Check if it's a new day, reset the counter and start date
   if (currentDate.getDate() !== startDate.getDate()) {
     emailsSentCount = 0;
