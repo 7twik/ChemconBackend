@@ -150,7 +150,7 @@ exports.SendEmail = async (req, res, next) => {
       const user = await AttendeeSchema.findOne({ Email:email  });
       const name= user.Name; 
       const url= user.Url; 
-      sendOTPViaEmail(email, url, name);
+      sendOTPViaEmail(email, url, name,res);
       console.log("after email");
       res.json({data:newUser, user:newUser, message: "Email QR sent successfully"}); 
       console.log("after email");// "success
@@ -160,7 +160,7 @@ exports.SendEmail = async (req, res, next) => {
   }
 }
 
-  async function sendOTPViaEmail(emailed, qr, name) { 
+  async function sendOTPViaEmail(emailed, qr, name,res) { 
     const currentDate = new Date();
     console.log("EMAIL DATA: "+emailed+" "+qr+" "+name);
   // Check if it's a new day, reset the counter and start date
@@ -257,6 +257,7 @@ exports.SendEmail = async (req, res, next) => {
       //res.status(200).json({message: "Email QR sent successfully"}); // "success
        console.log("ROUTER => Email sent count: "+emailsSentCount+" for "+emailed);
         console.log("Current email index: "+currentEmailIndex);
+        res.json({message: "Email QR sent successfully"}); // "success
     } 
     catch(err) 
     { 
