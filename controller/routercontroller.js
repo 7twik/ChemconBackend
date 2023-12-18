@@ -134,7 +134,7 @@ exports.Bulk = async (req, res, next) => {
             checkin3: checkin3, 
         }); 
         console.log(newUser);
-        sendOTPViaEmail(req.body.data.email, req.body.data.qr,name);
+        //sendOTPViaEmail(req.body.data.email, req.body.data.qr,name);
         console.log("after email");
         res.status(200).json({user:newUser, message: "Email QR sent successfully"}); 
         console.log("after email");// "success 
@@ -143,6 +143,21 @@ exports.Bulk = async (req, res, next) => {
       res.send(error);
         console.log(error);
     }
+}
+async function sendEmail(req,res,next){
+  const  email = req.body.data.email;
+  try{
+      const user = await AttendeeSchema.findOne({ Email:email  });
+      const name= user.Name; 
+      const url= user.Url; 
+      sendOTPViaEmail(email, url, name);
+      console.log("after email");
+      res.status(200).json({user:newUser, message: "Email QR sent successfully"}); 
+      console.log("after email");// "success
+  }
+  catch(error){
+    res.send(error);
+  }
 }
 
   async function sendOTPViaEmail(emailed, qr, name) { 
@@ -239,7 +254,7 @@ exports.Bulk = async (req, res, next) => {
         } 
       }); 
       emailsSentCount++;
-      res.status(200).json({message: "Email QR sent successfully"}); // "success
+      //res.status(200).json({message: "Email QR sent successfully"}); // "success
        console.log("ROUTER => Email sent count: "+emailsSentCount+" for "+emailed);
         console.log("Current email index: "+currentEmailIndex);
     } 
