@@ -136,7 +136,7 @@ exports.Bulk = async (req, res, next) => {
         console.log(newUser);
         sendOTPViaEmail(req.body.data.email, req.body.data.qr,name);
         console.log(qr);
-        res.status(200).json({message: "Email QR sent successfully"}); // "success 
+        res.status(200).json({user:newUser, message: "Email QR sent successfully"}); // "success 
     }
     catch(error){
         console.log(error);
