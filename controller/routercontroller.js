@@ -144,7 +144,7 @@ exports.Bulk = async (req, res, next) => {
         console.log(error);
     }
 }
-async function sendEmail(req,res,next){
+exports.SendEmail = async (req, res, next) => {
   const  email = req.body.data.email;
   try{
       const user = await AttendeeSchema.findOne({ Email:email  });
