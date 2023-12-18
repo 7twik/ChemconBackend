@@ -139,6 +139,7 @@ exports.Bulk = async (req, res, next) => {
         res.status(200).json({user:newUser, message: "Email QR sent successfully"}); // "success 
     }
     catch(error){
+      res.send(error);
         console.log(error);
     }
 }
