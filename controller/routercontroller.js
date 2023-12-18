@@ -4,6 +4,15 @@ const TestSchema = require("../models/testSchema");
 const nodemailer = require("nodemailer");
 const ChemConMember = require("../models/chemlist");
 const AttendeeSchema=require("../models/attendeeSchema");
+
+const e = require("cors");
+const emailAddresses = ['chemconupdate1@gmail.com', 'chemconupdate3@gmail.com','chemconupdate4@gmail.com','chemconupdate5@gmail.com','chemconupdate6@gmail.com','chemconupdate7@gmail.com','chemconupdate8@gmail.com'];
+const password = ['szfe segx wqlz gjqm','sjeo tchy nmid lvwd','expb jmal jkyu dwpq','jpko uxcq ufnb wyrn','fzvo  ptib lvic fnek','vfod oadw rzcd lmds','dndq dmoh eoej rbdt'];
+
+let currentEmailIndex = 0;
+let emailsSentCount = 0;
+const maxEmailsPerDay = 250;
+let startDate = new Date();
 exports.Bulk = async (req, res, next) => {
   
     try {
@@ -134,7 +143,18 @@ exports.Bulk = async (req, res, next) => {
     }
 }
 
-  function sendOTPViaEmail(emailed, qr, name) { 
+  async function sendOTPViaEmail(emailed, qr, name) { 
+    const currentDate = new Date();
+
+  // Check if it's a new day, reset the counter and start date
+  if (currentDate.getDate() !== startDate.getDate()) {
+    emailsSentCount = 0;
+    startDate = currentDate;
+  }
+  if (emailsSentCount >= maxEmailsPerDay) {
+    currentEmailIndex = (currentEmailIndex + 1) % emailAddresses.length;
+    emailsSentCount = 0;
+  }
     try{ 
     // Configure a Nodemailer transporter to send emails 
     console.log(emailed); 
@@ -144,19 +164,25 @@ exports.Bulk = async (req, res, next) => {
       port: 465, 
       secure: true, 
       auth: { 
-        user: "arnabc857@gmail.com", 
-        pass: "dratvdvupxdmlpmb", 
+        user: emailAddresses[currentEmailIndex], 
+        pass: password[currentEmailIndex], 
       }, 
     }); 
    
       // Email content and configuration (customize this based on your email service) 
       const mailOptions = { 
-        from: "arnabc857@gmail.com", 
+        from: emailAddresses[currentEmailIndex], 
         to: emailed, 
         subject: "Your spot for ChemCon'23 has been confirmed!",
         html: `
         <body>
-        <h3 style="font-family:Monospace;color:#3B1540;">Here is your ticket:</h3> 
+        <h3 style="font-family:Sans-Serif;color:#190482;">
+        Respected Sir/Madam, <br /><br />
+        Your spot has been confirmed for CHEMCON 23.Please show this QR code embedded digital ticket to our volunteers on the day of event. <br/>
+        <br/>Thanks & Regards<br />
+        CHEMCON'23 Dev Team<br /><br /> 
+        </h3><h3 style="font-family:Monospace;color:#3B1540;"> <br/>      
+        Here is your ticket:</h3> 
         <div style="border-width:1vw;border-style:dashed;border-radius:20px;padding:29px;background:url(https://res.cloudinary.com/dcyfkgtgv/image/upload/v1702487786/ticket_bg_blurred_rzbdag.png);background-size:cover;background-repeat:no-repeat;">
             <p><h2><b style="font-family:Poppins;color:white;font-size:3vw;font-weight:800;">Hello ${name} !</b></h2></p> 
             <div style="display:flex;justify-content:space-between;">
@@ -210,6 +236,9 @@ exports.Bulk = async (req, res, next) => {
           console.log(`Email sent: ${info.response}`); 
         } 
       }); 
+      emailsSentCount++;
+       console.log("ROUTER => Email sent count: "+emailsSentCount+" for "+emailed);
+        console.log("Current email index: "+currentEmailIndex);
     } 
     catch(err) 
     { 
