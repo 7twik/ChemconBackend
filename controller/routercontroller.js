@@ -121,6 +121,7 @@ exports.Bulk = async (req, res, next) => {
         const checkin1= false; 
         const checkin2= false; 
         const checkin3= false; 
+        
         const newUser = await AttendeeSchema.create({ 
             Name: name, 
             Email: email, 
@@ -136,7 +137,7 @@ exports.Bulk = async (req, res, next) => {
         console.log(newUser);
         //sendOTPViaEmail(req.body.data.email, req.body.data.qr,name);
         console.log("after email");
-        res.json({user:newUser, message: "Email QR sent successfully"}); 
+        await res.json({user:newUser, message: "Email QR sent successfully"}); 
         console.log("after email");// "success 
     }
     catch(error){
@@ -152,7 +153,7 @@ exports.SendEmail = async (req, res, next) => {
       const url= user.Url; 
       await sendOTPViaEmail(email, url, name,res);
       console.log("after email");
-      res.json({data:newUser, user:newUser, message: "Email QR sent successfully"}); 
+      await res.json({data:newUser, user:newUser, message: "Email QR sent successfully"}); 
       console.log("after email");// "success
   }
   catch(error){
