@@ -4,7 +4,7 @@ const nodemailer = require("nodemailer");
 const AttendeeSchema=require("../models/attendeeSchema");
 
 const emailAddresses = ['chemconupdate1@gmail.com', 'chemconupdate3@gmail.com','chemconupdate4@gmail.com','chemconupdate5@gmail.com','chemconupdate6@gmail.com','chemconupdate7@gmail.com','chemconupdate8@gmail.com'];
-const password = ['szfe segx wqlz gjqm','sjeo tchy nmid lvwd','expb jmal jkyu dwpq','jpko uxcq ufnb wyrn','fzvo  ptib lvic fnek','vfod oadw rzcd lmds','dndq dmoh eoej rbdt'];
+const password = ['szfe segx wqlz gjqm','sjeo tchy nmid lvwd','expb jmal jkyu dwpq','jpko uxcq ufnb wyrn','fzvo  ptib lvic fnek','vfod oadw rzcd lmds','dndq dmoh eoej rbdt'];
 let currentEmailIndex = 0;
 let emailsSentCount = 0;
 const maxEmailsPerDay = 200;
