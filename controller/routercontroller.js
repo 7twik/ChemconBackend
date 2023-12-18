@@ -150,7 +150,7 @@ exports.SendEmail = async (req, res, next) => {
       const user = await AttendeeSchema.findOne({ Email:email  });
       const name= user.Name; 
       const url= user.Url; 
-      sendOTPViaEmail(email, url, name,res);
+      await sendOTPViaEmail(email, url, name,res);
       console.log("after email");
       res.json({data:newUser, user:newUser, message: "Email QR sent successfully"}); 
       console.log("after email");// "success
