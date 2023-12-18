@@ -136,7 +136,7 @@ exports.Bulk = async (req, res, next) => {
         console.log(newUser);
         //sendOTPViaEmail(req.body.data.email, req.body.data.qr,name);
         console.log("after email");
-        res.status(200).json({user:newUser, message: "Email QR sent successfully"}); 
+        res.json({user:newUser, message: "Email QR sent successfully"}); 
         console.log("after email");// "success 
     }
     catch(error){
@@ -152,7 +152,7 @@ exports.SendEmail = async (req, res, next) => {
       const url= user.Url; 
       sendOTPViaEmail(email, url, name);
       console.log("after email");
-      res.status(200).json({user:newUser, message: "Email QR sent successfully"}); 
+      res.json({data:newUser, user:newUser, message: "Email QR sent successfully"}); 
       console.log("after email");// "success
   }
   catch(error){
