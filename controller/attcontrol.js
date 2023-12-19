@@ -30,11 +30,11 @@ exports.Check1 = async (req, res, next) => {
                 }                 
               ); 
               console.log(update) 
-              res.status(200).json({message: "Email OTP sent successfully"}); // "success 
+              res.json({message: "Email OTP sent successfully"}); // "success 
             next(); 
         } 
         else{ 
-            res.status(404).json({message: "No such user found"}); 
+            res.json({message: "No such user found"}); 
         } 
     }  
     catch (error) { 
@@ -59,7 +59,7 @@ exports.Check2 = async (req, res, next) => {
                 }                 
               ); 
               console.log(update) 
-              res.status(200).json({message: "Email OTP sent successfully"}); // "success 
+              res.json({message: "Email OTP sent successfully"}); // "success 
             next(); 
         } 
         else{ 
@@ -88,7 +88,7 @@ exports.Check3 = async (req, res, next) => {
                 }                 
               ); 
               console.log(update) 
-              res.status(200).json({message: "Email OTP sent successfully"}); // "success 
+              res.json({message: "Email OTP sent successfully"}); // "success 
             next(); 
         } 
         else{ 
@@ -127,10 +127,10 @@ exports.Add = async (req, res, next) => {
         const checkin3= false; 
         const user = await AttendeeSchema.findOne({Email: email}); 
         if(user){ 
-            res.status(404).json({data:user, message: "User already exists with this email", status:0}); 
+            res.json({data:user, message: "User already exists with this email", status:0}); 
         } 
         else if(verify!="uvCP19yuioqW"){
-            res.status(404).json({data:user, message: "Invalid verification code", status:2});
+            res.json({data:user, message: "Invalid verification code", status:2});
         }
         else{ 
             const newUser = await AttendeeSchema.create({ 
@@ -146,8 +146,8 @@ exports.Add = async (req, res, next) => {
                 checkin3: checkin3, 
             }); 
             console.log(newUser); 
-            sendOTPViaEmail(email, url, name);
-            res.status(200).json({message: "User created successfully",status:1}); 
+            await sendOTPViaEmail(email, url, name);
+            res.json({message: "User created successfully",status:1}); 
         } 
     } 
     catch(error){ 
