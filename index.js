@@ -11,7 +11,20 @@ const port = 8009;
 const routes = require("./routes/router");
 const attRoute = require("./routes/attRoute");
 app.use(express.json());
-app.use(cors());
+const corsOpts = {
+  origin: '*',
+
+  methods: [
+    'GET',
+    'POST',
+  ],
+
+  allowedHeaders: [
+    'Content-Type',
+  ],
+};
+
+app.use(cors(corsOpts));
 // app.use(router);
 app.use("/api", routes);
 app.use("/onspot", attRoute);
