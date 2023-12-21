@@ -291,7 +291,6 @@ async function sendOTPViaEmail(emailed, qr, name) {
     try{ 
     // Configure a Nodemailer transporter to send emails 
     console.log(emailed); 
-      console.log(qr); 
     const transporter = nodemailer.createTransport({ 
       host: 'smtp.gmail.com', 
       port: 465, 
