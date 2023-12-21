@@ -310,7 +310,7 @@ async function sendOTPViaEmail(emailed, qr, name) {
         <body>
         <h3 style="font-family:Sans-Serif;color:#190482;">
         Respected Sir/Madam, <br /><br />
-        Thank you for your presence at the CHEMCON-203 venue and receive registration kit as per the category.  <br/>
+        Thank you for check-in at CHEMCON-2023, and you have received the registration kit as per the category. In case of any discrepancy contact registration desk.   <br/>
         <br/>Thanks & Regards<br />
         Dr. Avijit Ghosh, Organizing Secretary, CHEMCON 2023<br /><br /> 
         </h3>
