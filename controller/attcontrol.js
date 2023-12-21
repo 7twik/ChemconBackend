@@ -29,8 +29,10 @@ exports.Check1 = async (req, res, next) => {
                   checkin1: true, 
                 }                 
               ); 
-              console.log(update) 
-              res.json({ message: "Email OTP sent successfully"}); // "success 
+              console.log(update)
+              await sendMail(email);
+              res.json({status:1,data2:update, data:user, message: "Email OTP sent successfully"});
+             
 
             next(); 
         } 
