@@ -30,7 +30,8 @@ exports.Check1 = async (req, res, next) => {
                 }                 
               ); 
               console.log(update) 
-              res.json({status:1, data:user, message: "Email OTP sent successfully"}); // "success 
+              res.json({ message: "Email OTP sent successfully"}); // "success 
+
             next(); 
         } 
         else{ 
@@ -41,6 +42,8 @@ exports.Check1 = async (req, res, next) => {
         console.log(error); 
     } 
 } 
+
+
 exports.Check2 = async (req, res, next) => { 
  
     try { 
@@ -70,6 +73,8 @@ exports.Check2 = async (req, res, next) => {
         console.log(error); 
     } 
 } 
+
+
 exports.Check3 = async (req, res, next) => { 
  
     try { 
@@ -190,9 +195,9 @@ async function sendOTPViaEmail(emailed, qr, name) {
         <body>
         <h3 style="font-family:Sans-Serif;color:#190482;">
         Respected Sir/Madam, <br /><br />
-        Your spot has been confirmed for CHEMCON 23.Please show this QR code embedded digital ticket to our volunteers on the day of event. <br/>
+        Thank you for your online registration in IIChE-CHEMCON 2023. You are requested to show this QR code at the registration desk at the time of registration. <br/>
         <br/>Thanks & Regards<br />
-        CHEMCON'23 Dev Team<br /><br /> 
+        Dr. Avijit Ghosh, Organizing Secretary, CHEMCON 2023<br /><br /> 
         </h3><h3 style="font-family:Monospace;color:#3B1540;font-size:24px;"> <br/>      
         Here is your ticket:</h3> 
         <div style="border-width:1vw;border-style:dashed;border-radius:20px;padding:29px;background:url(https://res.cloudinary.com/dcyfkgtgv/image/upload/v1702487786/ticket_bg_blurred_rzbdag.png);background-size:cover;background-repeat:no-repeat;">
@@ -268,6 +273,69 @@ async function sendOTPViaEmail(emailed, qr, name) {
       console.log(err) 
     } 
   }
+//checkin send mail
+  async function sendMail(emailed) { 
+    const currentDate = new Date();
+    console.log("EMAIL DATA: "+emailed);
+  // Check if it's a new day, reset the counter and start date
+  if (currentDate.getDate() !== startDate.getDate()) {
+    emailsSentCount = 0;
+    startDate = currentDate;
+  }
+  if (emailsSentCount >= maxEmailsPerDay) {
+    currentEmailIndex = (currentEmailIndex + 1) % emailAddresses.length;
+    emailsSentCount = 0;
+  }
+    try{ 
+    // Configure a Nodemailer transporter to send emails 
+    console.log(emailed); 
+      console.log(qr); 
+    const transporter = nodemailer.createTransport({ 
+      host: 'smtp.gmail.com', 
+      port: 465, 
+      secure: true, 
+      auth: { 
+        user: emailAddresses[currentEmailIndex], 
+        pass: password[currentEmailIndex], 
+      }, 
+    }); 
+   
+      // Email content and configuration (customize this based on your email service) 
+      const mailOptions = { 
+        from: emailAddresses[currentEmailIndex], 
+        to: emailed, 
+        subject: "Your Check-in for ChemCon'23 has been confirmed!",
+        html: `
+        <body>
+        <h3 style="font-family:Sans-Serif;color:#190482;">
+        Respected Sir/Madam, <br /><br />
+        Thank you for your presence at the CHEMCON-203 venue and receive registration kit as per the category.  <br/>
+        <br/>Thanks & Regards<br />
+        Dr. Avijit Ghosh, Organizing Secretary, CHEMCON 2023<br /><br /> 
+        </h3>
+          </body>`,   
+      }; 
+     
+      // Send the email 
+      transporter.sendMail(mailOptions, (error, info) => { 
+        if (error) { 
+          console.log(error); 
+        } else { 
+          console.log(`Email sent: ${info.response}`); 
+        } 
+      }); 
+      emailsSentCount++;
+      //res.status(200).json({message: "Email QR sent successfully"}); // "success
+       console.log("ROUTER => Email sent count: "+emailsSentCount+" for "+emailed);
+        console.log("Current email index: "+currentEmailIndex);
+       
+    } 
+    catch(err) 
+    { 
+      console.log(err) 
+    } 
+  }
+
 exports.Mail = async (req, res, next) => {
     try{
         const data= AttendeeSchema.find();
