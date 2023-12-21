@@ -30,7 +30,7 @@ exports.Check1 = async (req, res, next) => {
                 }                 
               ); 
               console.log(update) 
-              res.json({message: "Email OTP sent successfully"}); // "success 
+              res.json({status:1, data:user, message: "Email OTP sent successfully"}); // "success 
             next(); 
         } 
         else{ 
