@@ -111,7 +111,9 @@ exports.Show = async (req, res, next) => {
         try { 
              
             const user = await AttendeeSchema.find(); 
-            res.status(200).json({user});  
+            const checked = await AttendeeSchema.find({checkin1: true});
+            const len=checked.length;
+            res.json({user:user, count:len});  
         }  
         catch (error) { 
             console.log(error); 

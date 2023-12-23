@@ -111,6 +111,10 @@ exports.Bulk = async (req, res, next) => {
   exports.Add = async (req, res, next) => {
     const  email = req.body.data.email;
     try{
+      if(attendee){
+        res.json({ user:attendee, message: 'Already registered.',status:0 });
+      }
+      else{
         const user = await ChemConMember.findOne({ Email:email  });
         const name= user.Name; 
         const mobile= user.Mobile; 
@@ -139,6 +143,7 @@ exports.Bulk = async (req, res, next) => {
         console.log("after email");
         await res.json({user:newUser, message: "Email QR sent successfully"}); 
         console.log("after email");// "success 
+      }
     }
     catch(error){
       res.send(error);
