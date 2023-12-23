@@ -111,9 +111,7 @@ exports.Show = async (req, res, next) => {
         try { 
              
             const user = await AttendeeSchema.find(); 
-            const checked = await AttendeeSchema.find({checkin1: true});
-            const len=checked.length;
-            res.json({user:user, count:len});  
+            res.json({user:user});  
         }  
         catch (error) { 
             console.log(error); 
@@ -348,6 +346,16 @@ exports.Mail = async (req, res, next) => {
             emails.push(data[i].Email);
         }
         res.json({data:emails}); // "success
+    }
+    catch(error){
+        console.log(error);
+    }
+}
+exports.checkShow = async (req, res, next) => {
+    try{
+        const check1= AttendeeSchema.find({checkin1: true});
+        const len=check1.length;
+        res.json({data:check1,count: len}); // "success
     }
     catch(error){
         console.log(error);
