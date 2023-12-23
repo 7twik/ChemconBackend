@@ -110,6 +110,7 @@ exports.Bulk = async (req, res, next) => {
 
   exports.Add = async (req, res, next) => {
     const  email = req.body.data.email;
+    const attendee= await AttendeeSchema.findOne({ Email:email  });
     try{
       if(attendee){
         res.json({ user:attendee, message: 'Already registered.',status:0 });
