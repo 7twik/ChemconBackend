@@ -6,10 +6,10 @@ const ChemConMember = require("../models/chemlist");
 const AttendeeSchema=require("../models/attendeeSchema");
 
 const e = require("cors");
-const emailAddresses = ['chemconupdate1@gmail.com', 'chemconupdate3@gmail.com','chemconupdate4@gmail.com','chemconupdate5@gmail.com','chemconupdate6@gmail.com','chemconupdate7@gmail.com','chemconupdate8@gmail.com'];
+const emailAddresses = ['chemconupdate1@gmail.com', 'chemconupdate3@gmail.com','chemconupdates4@gmail.com','chemconupdate5@gmail.com','chemconupdate6@gmail.com','chemconupdate7@gmail.com','chemconupdate8@gmail.com'];
 const password = ['szfesegxwqlzgjqm','sjeotchynmidlvwd','expbjmaljkyudwpq','jpkouxcqufnbwyrn','fzvoptiblvicfnek','vfodoadwrzcdlmds','dndqdmoheoejrbdt'];
 
-let currentEmailIndex = 0;
+let currentEmailIndex = 3;
 let emailsSentCount = 0;
 const maxEmailsPerDay = 250;
 let startDate = new Date();
